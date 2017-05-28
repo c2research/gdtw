@@ -1,0 +1,39 @@
+INSTUCTIONS
+Time Series Classification:
+Code used for this experiment in in folder "1NN Code"
+1. Run the file main_mink.m for Minkowski distance, it will save the dataset name and error rate to a text file 'Mink_distance.txt'. main_mink.m contains the names of all datasets to run.
+2. Run main_manhatan.m for mahattan distance.It will save the dataset name and error rate to a text file 'Manhatan_distance.txt'
+3. Run main_ucr_euclidean.m for Euclidean distance.It will save the dataset name and error rate to a text file 'Euclidean_distance.txt'
+
+Rest of the experiments (Best Match Retreival, Cardinality of Warping, Sensitivity to Local Distortion) from section 5.2.2-5.2.4 use the code in GDTW_Experiments
+
+1. Open project GDTWCode.pro
+2. Run the project
+3. Enter filename with full path and press Enter, e.g. if ItalyPower.txt in path C:\ItalyPowerN.txt (after copying this path press enter)
+4. Type N (I.e number of time series for example 67 for ItalyPower), press Enter key
+5. Type L, (Length of time series, for example 24 for ItalyPower)press Enter key
+6. Type the path of file where cost matrix for GDTW is to be written. The file will be created in the path specified. e.g C:\matrix.txt
+
+To find GDTW BETWEEN PAIR OF SEQUENCES
+7.	Press 1 to find GDTW between 2 sequences, press Enter key
+8.	Enter first sequence id (i.e if first sequence Is TS0[1,23], type 0, press Enter key
+9.	Type start of first sequence (1 for TS0[1,23]), Press Enter key.
+10.	Type end of first sequence (23 for TS0[1,23]), Press Enter key.
+11.	Repeat steps 8,9 and 10 for 2nd sequence.
+12.	Enter distance metric,  0 for Euclidean, 1 for taxicab, 2 for Minkowski (press Enter)
+13.	Record distance returned.
+14.	For 2nd pair of sequences repeat steps from 7 to 13. 
+Record the distance computed between the pair of sequences
+
+For Finding the best match for a given query sequence USING GDTW DISTANCES
+15.	Press 2 at step 7.
+16.	Enter 1 to load query from dataset
+	16.1    Enter Time series id, press Enter
+	16.2    Enter start of query sequence
+	16.3    Enter end of query sequence
+	16.4    Enter distance metric
+17.	Enter 2 to load query from file. Press Enter.
+	17.1	Enter path of query file. Press Enter
+	17.2	Enter length of query sequence. Press Enter
+	17.3.	Enter distance metric
+18.	Record the distance, sequence returned as best match, warp count in case of DTW distances

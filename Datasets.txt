@@ -1,0 +1,8 @@
+Datasets:
+All the datasets can be found at http://www.cs.ucr.edu/~eamonn/time_series_data/
+For Time Series Classification experiment as described in Section 5.2.1 of paper, dataset must have 
+.mat" extension. Following link explains how to convert the text file in .mat file. 
+https://www.mathworks.com/help/matlab/ref/save.html
+Rest of the experiments use datasets as text files delimited by ' '.
+
+Use case Study on Heart Arrythmia uses the dataset from "http://physionet.org/cgi-bin/atm/ATM"
