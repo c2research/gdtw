@@ -9,7 +9,7 @@
 *  this function allows you to access c++ gdtw functions
 *  via matlab for scripting and automation. Example usage:
 *     
-*  | outMatrix = gdtw(inMatrix_1, inMatrix_2, distanceName)
+*  | dist = gdtw(inMatrix_1, inMatrix_2, distanceName)
 *  
 *  @param first timeseries to compute the distance between
 *  @param sencond timeseries to compute the distance between
