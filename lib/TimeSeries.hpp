@@ -56,12 +56,7 @@ public:
    *  @param length length of the time series
    */
   TimeSeries(data_t *data, int length)
-    : data(data), index(0), start(0), end(length), length(length), isOwnerOfData(false) {
-      std::cout <<  std::endl << "creating ts" << std::endl;
-      for(int i = 0; i<length; i++) {
-        std::cout << data[i] << " ";
-      }
-    }
+    : data(data), index(0), start(0), end(length), length(length), isOwnerOfData(false) {}
 
   /**
    *  @brief constructor for TimeSeries

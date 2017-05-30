@@ -5,7 +5,7 @@
  * This is a MEX file for MATLAB.
  */
 #include <mex.h>
-#include <iostream>
+
 #include "TimeSeries.hpp"
 #include "distance/Distance.hpp"
 
