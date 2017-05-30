@@ -1,9 +1,3 @@
-/**
- * MIT License
- * Authors: [ctring, cjlovering] @ wpi.edu 
- *
- * This is a MEX file for MATLAB.
- */
 #include <mex.h>
 
 #include "TimeSeries.hpp"
