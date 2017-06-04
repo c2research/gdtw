@@ -6,8 +6,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
-namespace genex {
-
 class Manhattan
 {
 
@@ -34,7 +32,5 @@ public:
 
   void clean(data_t x) {}
 };
-
-} // namespace genex
 
 #endif // GENEX_SRC_MINKOWSKI_H

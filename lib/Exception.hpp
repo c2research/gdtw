@@ -4,8 +4,6 @@
 #include <stdexcept>
 #include <string>
 
-namespace genex {
-
 class GenexException : public std::runtime_error
 {
 public:
@@ -13,6 +11,5 @@ public:
   GenexException(std::string msg) : std::runtime_error(msg.c_str()) {}
 };
 
-} // namespace genex
 
 #endif // EXCEPTION_H

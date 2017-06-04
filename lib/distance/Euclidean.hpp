@@ -6,8 +6,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
-namespace genex {
-
 // This class is example of an implemented DistanceMetric
 class Euclidean
 {
@@ -39,7 +37,5 @@ public:
 
   void clean(data_t x) {}
 };
-
-} // namespace genex
 
 #endif

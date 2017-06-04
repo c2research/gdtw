@@ -6,7 +6,6 @@
 #include <limits>
 #include <iostream>
 
-namespace genex {
 
 #ifdef SINGLE_PRECISION
 typedef float data_t;
@@ -14,7 +13,7 @@ typedef float data_t;
 typedef double data_t;
 #endif
 
-#define INF std::numeric_limits<genex::data_t>::infinity()
+#define INF std::numeric_limits<data_t>::infinity()
 
 /**
  *  @brief header of a time series
@@ -136,7 +135,5 @@ private:
   int end;
   int length;
 };
-
-} // namespace genex
 
 #endif // TIMESERIES_H

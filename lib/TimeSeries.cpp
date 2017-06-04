@@ -1,7 +1,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
-#include <iostream> // debug
-namespace genex {
+#include <iostream>
 
 TimeSeries::~TimeSeries()
 {
@@ -34,4 +33,3 @@ TimeSeries& TimeSeries::operator+=(const TimeSeries& other)
   return *this;
 }
 
-} // namespace genex

@@ -4,6 +4,14 @@ project(gdtw)
 
 # inform compiler libs
 set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ -O2")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+
+# configure header file to include CMAKE values
+option(SINGLE_PRECISION "Represent data using single-precision floating-point" OFF)
+configure_file (
+  "${PROJECT_SOURCE_DIR}/config.hpp.in"
+  "${PROJECT_BINARY_DIR}/config.hpp"
+)
 
 # find matlab
 set(Matlab_ROOT_DIR "/Applications/MATLAB_R2017a.app")
@@ -14,6 +22,10 @@ include_directories("${Matlab_INCLUDE_DIRS}")
 find_package(Boost 1.6 REQUIRED COMPONENTS unit_test_framework)
 include_directories(${Boost_INCLUDE_DIRS})
 
+# include GNU readline
+find_package(Readline REQUIRED)
+include_directories(${Readline_INCLUDE_DIRS})
+
 # allow src files to see generated config.hpp
 include_directories("${PROJECT_BINARY_DIR}")
 
@@ -21,9 +33,7 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/lib")
 add_subdirectory(lib)
 
-# configure header file to include CMAKE values
-option(SINGLE_PRECISION "Represent data using single-precision floating-point" OFF)
-configure_file (
-  "${PROJECT_SOURCE_DIR}/config.hpp.in"
-  "${PROJECT_BINARY_DIR}/config.hpp"
-)
+# add online gdtw
+include_directories("${PROJECT_SOURCE_DIR}/online_gdtw")
+add_subdirectory(online_gdtw)
+

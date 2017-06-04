@@ -6,8 +6,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
-namespace genex {
-
 //This class is an example of an implemented DistanceMetric
 class Chebyshev
 {
@@ -36,7 +34,5 @@ public:
   void clean(data_t x) {}
 
 };
-
-} // namespace genex
 
 #endif // GENEX_SRC_MINKOWSKI_H

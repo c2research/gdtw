@@ -15,8 +15,6 @@
 
 #include <iostream>
 
-namespace genex {
-
 /**
  *  Add distances to this list
  */
@@ -72,5 +70,3 @@ const std::vector<std::string>& getAllDistanceName()
 {
   return gAllDistanceName;
 }
-
-} // namespace genex

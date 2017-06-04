@@ -6,8 +6,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
-namespace genex {
-
 class Cosine
 {
 public:
@@ -36,7 +34,5 @@ public:
   }
 
 };
-
-} // namespace genex
 
 #endif // GENEX_SRC_COSINE_H

@@ -6,8 +6,6 @@
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
-namespace genex {
-
 class Sorensen
 {
 public:
@@ -35,7 +33,5 @@ public:
   }
 
 };
-
-} // namespace genex
 
 #endif // GENEX_SRC_SORENSEN_H

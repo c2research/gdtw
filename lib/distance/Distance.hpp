@@ -12,8 +12,6 @@
 
 #define NEW_DISTANCE_NAME(_name) #_name, #_name"_warp"
 
-namespace genex {
-
 typedef data_t (*dist_t)(const TimeSeries&, const TimeSeries&, data_t);
 
 /**
@@ -295,7 +293,5 @@ pairwiseDistance(const TimeSeries& x_1, const TimeSeries& x_2, data_t dropout)
 
   return result;
 }
-
-} // namespace genex
 
 #endif //GENERAL_DISTANCE_H
