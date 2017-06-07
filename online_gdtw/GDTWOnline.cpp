@@ -106,6 +106,20 @@ std::vector<distance_info_t> GDTWOnline::getAllDistanceInfo()
   return info;
 }
 
+data_t GDTWOnline::getDistanceBetween(int index1, int idx1, int start1, int length1,
+                                      int index2, int idx2, int start2, int length2,
+                                      const std::string& distance_name)
+{
+  this->_checkDatasetIndex(index1);
+  this->_checkDatasetIndex(index2);
+  TimeSeries ts1 = this->loadedDatasets[index1]->getTimeSeries(idx1, start1, start1 + length1);
+  TimeSeries ts2 = this->loadedDatasets[index2]->getTimeSeries(idx2, start2, start2 + length2);
+
+  const dist_t distance = getDistance(distance_name);
+
+  return distance(ts1, ts2, INF);
+}
+
 void GDTWOnline::_checkDatasetIndex(int index)
 {
   if (index < 0 || index >= loadedDatasets.size() || loadedDatasets[index] == nullptr)
@@ -113,4 +127,6 @@ void GDTWOnline::_checkDatasetIndex(int index)
     throw GenexException("There is no dataset with given index");
   }
 }
+
+
 

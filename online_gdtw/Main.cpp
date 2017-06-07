@@ -169,6 +169,58 @@ MAKE_COMMAND(List,
   "Usage: list dataset|metric"
   )
 
+MAKE_COMMAND(Distance,
+  {
+    if (tooFewArgs(args, 10) || tooManyArgs(args, 10))
+    {
+      return false;
+    }
+
+    int ds1 = std::stoi(args[1]);
+    int ts1 = std::stoi(args[2]);
+    int start1 = std::stoi(args[3]);
+    int length1 = std::stoi(args[4]);
+    int ds2 = std::stoi(args[5]);
+    int ts2 = std::stoi(args[6]);
+    int start2 = std::stoi(args[7]);
+    int length2 = std::stoi(args[8]);
+
+    try
+    {
+      data_t result = gGDTWOnline.getDistanceBetween(ds1, ts1, start1, length1,
+                                                     ds2, ts2, start2, length2, args[9]);
+
+      std::cout << "Using distance " << args[9] << std::endl
+                << "Time series 1 [ds: " << ds1 << " id: " << ts1
+                << " start: " << start1 << " length: " << length1 << "]" << std::endl
+                << "Time series 2 [ds: " << ds2 << " id: " << ts2
+                << " start: " << start2 << " length: " << length2 << "]" << std::endl;
+
+      std::cout << "Result: " << std::setprecision(4) << std::fixed << result << std::endl;
+
+    }
+    catch (GenexException& e)
+    {
+      std::cout << "Error! " << e.what() << std::endl;
+      return false;
+    }
+
+    return true;
+  },
+
+  "Calculate the distance between two time series",
+
+  "The two time series may come from the same dataset or two different datasets.            \n"
+  "Usage: distance <ds1> <ts1> <start1> <length1> <ds2> <ts2> <start2> <length2> <distance> \n"
+  "  ds1      - Index of the dataset containing the first time series.                      \n"
+  "  ts1      - Index of the first time series in the dataset.                              \n"
+  "  length1  - Length of the first time series.                                            \n"
+  "  ds2      - Index of the dataset containing the second time series.                     \n"
+  "  ts2      - Index of the second time series in the dataset.                             \n"
+  "  length2  - Length of the second time series.                                           \n"
+  "  distance - Name of distance to use.                                                    \n"
+  )
+
 MAKE_COMMAND(Timer,
   {
     if (tooFewArgs(args, 1) || tooManyArgs(args, 2))
@@ -220,6 +272,7 @@ std::map<std::string, Command*> commands = {
   {"unload", &cmdUnloadDataset},
   {"list", &cmdList},
   {"timer", &cmdTimer},
+  {"distance", &cmdDistance},
 };
 
 /**************************************************************************/

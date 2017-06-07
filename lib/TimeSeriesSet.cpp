@@ -235,10 +235,3 @@ bool TimeSeriesSet::valid()
 {
   return this->data != nullptr;
 }
-
-data_t TimeSeriesSet::distanceBetween(int idx, int start, int length,
-         const TimeSeries& other, const std::string& distance_name)
-{
-  const dist_t distance = getDistance(distance_name);
-  return distance(this->getTimeSeries(idx, start, start + length), other, INF);
-}

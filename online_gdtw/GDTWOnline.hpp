@@ -99,6 +99,9 @@ public:
    */
   std::vector<distance_info_t> getAllDistanceInfo();
 
+  data_t getDistanceBetween(int index1, int idx1, int start1, int length1,
+                            int index2, int idx2, int start2, int length2,
+                            const std::string& distance);
 
 private:
   void _checkDatasetIndex(int index);
