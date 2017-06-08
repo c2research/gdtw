@@ -127,7 +127,8 @@ candidate_time_series_t GDTWOnline::computeRawBest(
   this->_checkDatasetIndex(index1);
   this->_checkDatasetIndex(index2);
 
-  TimeSeries target = this->loadedDatasets[index1]->getTimeSeries(idx1, start1, start1 + length1);
+  TimeSeries target = this->loadedDatasets[index1]
+                            ->getTimeSeries(idx1, start1, start1 + length1);
 
   int numberTimeSeries = this->loadedDatasets[index2]->getItemCount();
   int timeSeriesLength = this->loadedDatasets[index2]->getItemLength();
@@ -152,9 +153,9 @@ candidate_time_series_t GDTWOnline::computeRawBest(
       // iterate through all interval window lengths
       for (int start = 0; start < timeSeriesLength - intervalLength; 
             start++) {
-        currentTimeSeries = \
-            this->loadedDatasets[index2]\
-                   ->getTimeSeries(idx, start, start + intervalLength);
+        currentTimeSeries = 
+            this->loadedDatasets[index2]
+                  ->getTimeSeries(idx, start, start + intervalLength);
         currentDist = distance(target, currentTimeSeries, bestDist);
         if (currentDist < bestDist) {
           bestDist = currentDist;
