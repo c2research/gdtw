@@ -120,6 +120,52 @@ data_t GDTWOnline::getDistanceBetween(int index1, int idx1, int start1, int leng
   return distance(ts1, ts2, INF);
 }
 
+candidate_time_series_t GDTWOnline::computeRawBest(
+    int index1, int idx1, int start1, int length1,
+    int index2, const std::string &distance_name)
+{
+  this->_checkDatasetIndex(index1);
+  this->_checkDatasetIndex(index2);
+
+  TimeSeries target = this->loadedDatasets[index1]->getTimeSeries(idx1, start1, start1 + length1);
+
+  int numberTimeSeries = this->loadedDatasets[index2]->getItemCount();
+  int timeSeriesLength = this->loadedDatasets[index2]->getItemLength();
+
+  data_t bestDist = INF;
+  data_t currentDist;
+
+  TimeSeries bestTimeSeries = TimeSeries(0);
+  TimeSeries currentTimeSeries = TimeSeries(0);
+
+  const dist_t distance = getDistance(distance_name + "_warp");
+  
+  // iterate through every timeseries
+  for (int idx = 0; idx < numberTimeSeries; idx++) {
+    //skip same time series
+    if (idx1 == idx && index1 == index2) {
+      continue;
+    }
+    // iterate through every lenfth of interval
+    for (int intervalLength = 1; intervalLength <= timeSeriesLength;
+         intervalLength++) {
+      // iterate through all interval window lengths
+      for (int start = 0; start < timeSeriesLength - intervalLength; 
+            start++) {
+        currentTimeSeries = \
+            this->loadedDatasets[index2]\
+                   ->getTimeSeries(idx, start, start + intervalLength);
+        currentDist = distance(target, currentTimeSeries, bestDist);
+        if (currentDist < bestDist) {
+          bestDist = currentDist;
+          bestTimeSeries = currentTimeSeries;
+        }
+      }
+    }
+  }
+  return candidate_time_series_t(bestTimeSeries, bestDist);
+}
+
 void GDTWOnline::_checkDatasetIndex(int index)
 {
   if (index < 0 || index >= loadedDatasets.size() || loadedDatasets[index] == nullptr)

@@ -32,6 +32,18 @@ struct distance_info_t
   std::string description;
 };
 
+/**
+ *  @brief a struct pairing a dist with a time series
+ *
+ */
+struct candidate_time_series_t
+{
+  TimeSeries data;
+  data_t dist;
+
+  candidate_time_series_t(const TimeSeries &data, data_t dist) : data(data), dist(dist){};
+};
+
 class GDTWOnline
 {
 public:
@@ -99,9 +111,19 @@ public:
    */
   std::vector<distance_info_t> getAllDistanceInfo();
 
+  /**
+   *  @brief Gets the distance between two time series
+   */
   data_t getDistanceBetween(int index1, int idx1, int start1, int length1,
                             int index2, int idx2, int start2, int length2,
                             const std::string& distance);
+
+  /**
+   *  @brief Finds the nearest time series using gdtw
+   */
+  candidate_time_series_t computeRawBest(
+      int index1, int idx1, int start1, int length1,
+      int index2, const std::string &distance_name);
 
 private:
   void _checkDatasetIndex(int index);

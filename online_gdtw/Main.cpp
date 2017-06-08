@@ -258,7 +258,74 @@ MAKE_COMMAND(Timer,
   "the end of its execution. If this command is called without     \n"
   "an additional argument, the current state of timer is printed.  \n"
   "                                                                \n"
-  "Usage: timer [on|off]                                             ")
+  "Usage: timer [on|off]                                             "
+)
+MAKE_COMMAND(Best,
+             {
+               if (tooFewArgs(args, 4) || tooManyArgs(args, 7))
+               {
+                 return false;
+               }
+
+               std::string dist = "euclidean";
+
+               if (args.size() == 7)
+               {
+                 dist = args[6];
+               }
+
+               int ds1 = std::stoi(args[1]);
+               int ts1 = std::stoi(args[2]);
+               int start1 = std::stoi(args[3]);
+               int length1 = std::stoi(args[4]);
+               int ds2 = std::stoi(args[5]);
+
+               try
+               {
+                 candidate_time_series_t result =
+                     gGDTWOnline.computeRawBest(ds1, ts1, start1,
+                                                length1, ds2, dist);
+
+                 data_t dist = result.dist;
+                 TimeSeries data = result.data;
+
+                 int ts2 = data.getIndex();
+                 int start2 = data.getStart();
+                 int length2 = data.getLength();
+
+                 std::cout << "Using distance " << dist << std::endl
+                           << "Time series 1 [ds: " << ds1 << " id: " << ts1
+                           << " start: " << start1 << " length: " << length1 << "]" << std::endl
+                           << "Best Interval: "
+                           << "[ds: " << ds2 << " id: " << ts2
+                           << " start: " << start2 << " length: " << length2 << "]" << std::endl;
+
+                 std::cout << "Result: " << std::setprecision(4) << std::fixed << dist << std::endl;
+               }
+               catch (GenexException &e)
+               {
+                 std::cout << "Error! " << e.what() << std::endl;
+                 return false;
+               }
+               return true;
+             },
+
+             "Raw compute, find the best (closest) interval in a dataset",
+
+             "Include the index of the dataset of the target (query) time series\n"
+             "and the search dataset, the dataset you wish to search through.   \n"
+             "defaults to euclidean distance.                                   \n"
+             "                                                                  \n"
+             "Usage: best <dsT> <idxT> <start> <length> <dsS> [dist]            \n"
+             " dsT    - dataset index of target time series                     \n"
+             " idxT   - index of time series in dsT                             \n"
+             " start  - start index of interval in time series                  \n"
+             " length - length of interval                                      \n"
+             " dist   - optional, the distance function you wish to use         \n"
+             "                                                                  \n"
+             " NOTE: If using the UCR dataset, when loading data be sure        \n"
+             "       to skip the first column.                                  \n"
+)
 
 /**************************************************************************
  * Step 2: Add the Command object into the commands map
@@ -267,12 +334,9 @@ MAKE_COMMAND(Timer,
  * user input. The value is the cmd<command_name> variable created in step 1.
  **************************************************************************/
 
-std::map<std::string, Command*> commands = {
-  {"load", &cmdLoadDataset},
-  {"unload", &cmdUnloadDataset},
-  {"list", &cmdList},
-  {"timer", &cmdTimer},
-  {"distance", &cmdDistance},
+                                std::map<std::string, Command *>
+                                    commands = {
+                                        {"load", &cmdLoadDataset}, {"unload", &cmdUnloadDataset}, {"list", &cmdList}, {"timer", &cmdTimer}, {"distance", &cmdDistance}, {"best", &cmdBest},
 };
 
 /**************************************************************************/
@@ -280,33 +344,36 @@ std::map<std::string, Command*> commands = {
 
 #define COUT_HELP_ALIGNMENT 15
 
-const std::string HELP_SUMMARY = "Retrieve a list of commands or get help for a command";
-const std::string HELP_HELP    = "Usage: help [<command_name>]                                \n"
-                                 "  command_name - Name of command to retrieve help about. If \n"
-                                 "                 not specified, a list of available commands\n"
-                                 "                 is shown instead.                            ";
-const std::string EXIT_SUMMARY = "Terminate the program";
-const std::string EXIT_HELP    = "Usage: Can use either 'exit' or 'quit'";
+    const std::string HELP_SUMMARY = "Retrieve a list of commands or get help for a command";
+    const std::string HELP_HELP = "Usage: help [<command_name>]                                \n"
+                                  "  command_name - Name of command to retrieve help about. If \n"
+                                  "                 not specified, a list of available commands\n"
+                                  "                 is shown instead.                            ";
+    const std::string EXIT_SUMMARY = "Terminate the program";
+    const std::string EXIT_HELP = "Usage: Can use either 'exit' or 'quit'";
 
-void showHelp(const std::string& command_name)
-{
-  if (command_name == "help")
-  {
-    std::cout << HELP_SUMMARY << std::endl << HELP_HELP << std::endl;
-  }
-  else if (command_name == "exit" || command_name == "quit")
-  {
-    std::cout << EXIT_SUMMARY << std::endl << EXIT_HELP << std::endl;
-  }
-  else if (commands.find(command_name) != commands.end())
-  {
-    Command* cmd = commands[command_name];
-    std::cout << cmd->getSummary() << std::endl << cmd->getHelp() << std::endl;
-  }
-  else
-  {
-    std::cout << "Error! Cannot find help for command: " << command_name << std::endl;
-  }
+    void showHelp(const std::string &command_name)
+    {
+      if (command_name == "help")
+      {
+        std::cout << HELP_SUMMARY << std::endl
+                  << HELP_HELP << std::endl;
+      }
+      else if (command_name == "exit" || command_name == "quit")
+      {
+        std::cout << EXIT_SUMMARY << std::endl
+                  << EXIT_HELP << std::endl;
+      }
+      else if (commands.find(command_name) != commands.end())
+      {
+        Command *cmd = commands[command_name];
+        std::cout << cmd->getSummary() << std::endl
+                  << cmd->getHelp() << std::endl;
+      }
+      else
+      {
+        std::cout << "Error! Cannot find help for command: " << command_name << std::endl;
+      }
 }
 
 void showAllHelps()
