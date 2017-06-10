@@ -214,9 +214,11 @@ MAKE_COMMAND(Distance,
   "Usage: distance <ds1> <ts1> <start1> <length1> <ds2> <ts2> <start2> <length2> <distance> \n"
   "  ds1      - Index of the dataset containing the first time series.                      \n"
   "  ts1      - Index of the first time series in the dataset.                              \n"
+  "  start1   - Starting position in the first time series.                                 \n"
   "  length1  - Length of the first time series.                                            \n"
   "  ds2      - Index of the dataset containing the second time series.                     \n"
   "  ts2      - Index of the second time series in the dataset.                             \n"
+  "  start2   - Starting position in the second time series.                                \n"
   "  length2  - Length of the second time series.                                           \n"
   "  distance - Name of distance to use.                                                    \n"
   )
@@ -260,71 +262,72 @@ MAKE_COMMAND(Timer,
   "                                                                \n"
   "Usage: timer [on|off]                                             "
 )
+
 MAKE_COMMAND(Best,
-             {
-               if (tooFewArgs(args, 4) || tooManyArgs(args, 7))
-               {
-                 return false;
-               }
+  {
+    if (tooFewArgs(args, 4) || tooManyArgs(args, 7))
+    {
+      return false;
+    }
 
-               std::string dist = "euclidean";
+    std::string dist = "euclidean";
 
-               if (args.size() == 7)
-               {
-                 dist = args[6];
-               }
+    if (args.size() == 7)
+    {
+      dist = args[6];
+    }
 
-               int ds1 = std::stoi(args[1]);
-               int ts1 = std::stoi(args[2]);
-               int start1 = std::stoi(args[3]);
-               int length1 = std::stoi(args[4]);
-               int ds2 = std::stoi(args[5]);
+    int ds1 = std::stoi(args[1]);
+    int ts1 = std::stoi(args[2]);
+    int start1 = std::stoi(args[3]);
+    int length1 = std::stoi(args[4]);
+    int ds2 = std::stoi(args[5]);
 
-               try
-               {
-                 candidate_time_series_t result =
-                     gGDTWOnline.computeRawBest(ds1, ts1, start1,
-                                                length1, ds2, dist);
+    try
+    {
+      candidate_time_series_t result =
+          gGDTWOnline.computeRawBest(ds1, ts1, start1,
+                                    length1, ds2, dist);
 
-                 data_t dist = result.dist;
-                 TimeSeries data = result.data;
+      data_t dist = result.dist;
+      TimeSeries data = result.data;
 
-                 int ts2 = data.getIndex();
-                 int start2 = data.getStart();
-                 int length2 = data.getLength();
+      int ts2 = data.getIndex();
+      int start2 = data.getStart();
+      int length2 = data.getLength();
 
-                 std::cout << "Using distance " << dist << std::endl
-                           << "Time series 1 [ds: " << ds1 << " id: " << ts1
-                           << " start: " << start1 << " length: " << length1 << "]" << std::endl
-                           << "Best Interval: "
-                           << "[ds: " << ds2 << " id: " << ts2
-                           << " start: " << start2 << " length: " << length2 << "]" << std::endl;
+      std::cout << "Using distance " << dist << std::endl
+                << "Time series 1 [ds: " << ds1 << " id: " << ts1
+                << " start: " << start1 << " length: " << length1 << "]" << std::endl
+                << "Best Interval: "
+                << "[ds: " << ds2 << " id: " << ts2
+                << " start: " << start2 << " length: " << length2 << "]" << std::endl;
 
-                 std::cout << "Result: " << std::setprecision(4) << std::fixed << dist << std::endl;
-               }
-               catch (GenexException &e)
-               {
-                 std::cout << "Error! " << e.what() << std::endl;
-                 return false;
-               }
-               return true;
-             },
+      std::cout << "Result: " << std::setprecision(4) << std::fixed << dist << std::endl;
+    }
+    catch (GenexException &e)
+    {
+      std::cout << "Error! " << e.what() << std::endl;
+      return false;
+    }
+    return true;
+  },
 
-             "Raw compute, find the best (closest) interval in a dataset",
+  "Raw compute, find the best (closest) interval in a dataset",
 
-             "Include the index of the dataset of the target (query) time series\n"
-             "and the search dataset, the dataset you wish to search through.   \n"
-             "defaults to euclidean distance.                                   \n"
-             "                                                                  \n"
-             "Usage: best <dsT> <idxT> <start> <length> <dsS> [dist]            \n"
-             " dsT    - dataset index of target time series                     \n"
-             " idxT   - index of time series in dsT                             \n"
-             " start  - start index of interval in time series                  \n"
-             " length - length of interval                                      \n"
-             " dist   - optional, the distance function you wish to use         \n"
-             "                                                                  \n"
-             " NOTE: If using the UCR dataset, when loading data be sure        \n"
-             "       to skip the first column.                                  \n"
+  "Include the index of the dataset of the target (query) time series\n"
+  "and the search dataset, the dataset you wish to search through.   \n"
+  "defaults to euclidean distance.                                   \n"
+  "                                                                  \n"
+  "Usage: best <dsT> <idxT> <start> <length> <dsS> [dist]            \n"
+  " dsT    - dataset index of target time series                     \n"
+  " idxT   - index of time series in dsT                             \n"
+  " start  - start index of interval in time series                  \n"
+  " length - length of interval                                      \n"
+  " dist   - optional, the distance function you wish to use         \n"
+  "                                                                  \n"
+  " NOTE: If using the UCR dataset, when loading data be sure        \n"
+  "       to skip the first column.                                  \n"
 )
 
 /**************************************************************************

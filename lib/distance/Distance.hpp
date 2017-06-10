@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cmath>
+#include <ostream>
 #include "TimeSeries.hpp"
 #include "Exception.hpp"
 
@@ -10,7 +11,7 @@
   pairwiseDistance<_class, _type>,  \
   warpedDistance<_class, _type>
 
-#define NEW_DISTANCE_NAME(_name) #_name, #_name"_warp"
+#define NEW_DISTANCE_NAME(_name) #_name, #_name"_dtw"
 
 typedef data_t (*dist_t)(const TimeSeries&, const TimeSeries&, data_t);
 
@@ -48,6 +49,13 @@ template <class T> struct hasInverseNorm
   static constexpr bool value = test<T>(int());
 };
 
+#define TRACE_END_MARKER -1
+
+extern bool gTraceDTWPath;
+extern std::vector<std::vector<std::pair<int, int>>> gTrace;
+
+void printLastDTWPath(std::ostream& out);
+
 /**
  *  @brief returns the warped distance between two sets of data
  *
@@ -78,21 +86,17 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
   std::vector< std::vector< T >> cost(m, std::vector< T >(n));
   std::vector< std::vector< data_t >> ncost(m, std::vector<data_t>(n));
 
-  #if 0
-  auto trace = new std::pair<data_t, data_t>*[m]; // For tracing warping
-  for (int i = 0; i < m; i++)
-  {
-      trace[i] = new std::pair<data_t, data_t>[n];
+  if (gTraceDTWPath) {
+    gTrace.resize(m);
+    for (auto& row : gTrace) {
+      row.resize(n);
+    }
+    gTrace[0][0] = std::make_pair(TRACE_END_MARKER, TRACE_END_MARKER);
   }
-  #endif
 
   cost[0][0] = metric->init();
   cost[0][0] = metric->reduce(cost[0][0], cost[0][0], a[0], b[0]);
   ncost[0][0] = metric->norm(cost[0][0], a, b);
-
-  #if 0
-  trace[0][0] = std::make_pair(-1, -1);
-  #endif
 
   // calculate first column
   for(int i = 1; i < m; i++)
@@ -100,9 +104,9 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
     cost[i][0] = metric->init();
     cost[i][0] = metric->reduce(cost[i][0], cost[i-1][0], a[i], b[0]);
     ncost[i][0] = metric->norm(cost[i][0], a, b);
-    #if 0
-    trace[i][0] = std::make_pair(i - 1, 0);
-    #endif
+    if (gTraceDTWPath) {
+      gTrace[i][0] = std::make_pair(i - 1, 0);
+    }
   }
 
   // calculate first row
@@ -111,9 +115,9 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
     cost[0][j] = metric->init();
     cost[0][j] = metric->reduce(cost[0][j], cost[0][j-1], a[0], b[j]);
     ncost[0][j] = metric->norm(cost[0][j], a, b);
-    #if 0
-    trace[0][j] = std::make_pair(0, j - 1);
-    #endif
+    if (gTraceDTWPath) {
+      gTrace[0][j] = std::make_pair(0, j - 1);
+    }
   }
 
   data_t result;
@@ -125,18 +129,28 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
     for(int j = 1; j < n; j++)
     {
       T minPrev = cost[i-1][j];
+      int traceMark = 0;
       if (ncost[i-1][j-1] < ncost[i][j-1] && ncost[i-1][j-1] < ncost[i-1][j])
       {
         minPrev = cost[i-1][j-1];
+        traceMark = 1;
       }
       else if (ncost[i][j-1] < ncost[i-1][j])
       {
         minPrev = cost[i][j-1];
+        traceMark = 2;
       }
       cost[i][j] = metric->init();
       cost[i][j] = metric->reduce(cost[i][j], minPrev, a[i], b[j]);
       ncost[i][j] = metric->norm(cost[i][j], a, b);
       bestSoFar = std::min(bestSoFar, ncost[i][j]);
+      if (gTraceDTWPath) {
+        switch (traceMark) {
+          case 0: gTrace[i][j] = std::make_pair(i - 1, j); break;
+          case 1: gTrace[i][j] = std::make_pair(i - 1, j - 1); break;
+          case 2: gTrace[i][j] = std::make_pair(i, j - 1); break;
+        }
+      }
     }
 
     if (bestSoFar > dropout)
@@ -155,7 +169,6 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
     result = ncost[m - 1][n - 1];
   }
 
-  //deallocate2Darray(cost, m);
   for(int i = 1; i < m; i++)
   {
     for(int j = 1; j < n; j++)
@@ -166,54 +179,6 @@ data_t warpedDistance(const TimeSeries& a, const TimeSeries& b, data_t dropout)
 
   return result;
 }
-
-
-
-#if 0
-//TODO: warping_path
-if (warping_path != NULL)
-{
-  int i = m - 1, j = n - 1;
-  while (i != -1)
-  {
-    warping_path->push_back(make_pair(i, j));
-    int old_i = i, old_j = j;
-    i = trace[old_i][old_j].first;
-    j = trace[old_i][old_j].second;
-  }
-}
-
-// during warping add correct values
-if (warping_path != NULL)
-{
-  vector<data_t> tmp;
-  tmp.push_back(cost[i - 1][j]);
-  tmp.push_back(cost[i][j - 1]);
-  tmp.push_back(cost[i - 1][j - 1]);
-
-  auto mpe = min_element(tmp.begin(), tmp.end());
-  if (mpe == tmp.begin())
-  {
-    trace[i][j] = make_pair(i - 1, j);
-  }
-  else if (mpe == tmp.begin() + 1)
-  {
-    trace[i][j] = make_pair(i, j - 1);
-  }
-  else if (mpe == tmp.begin() + 2)
-  {
-    trace[i][j] = make_pair(i - 1, j - 1);
-  }
-}
-
-// clean up
-for (int i = 0; i < m; i++)
-{
-  delete trace[i];
-}
-
-delete[] trace;
-#endif
 
 /**
  *  @brief returns the distance between two sets of data

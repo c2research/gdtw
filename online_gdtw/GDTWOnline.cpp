@@ -139,7 +139,7 @@ candidate_time_series_t GDTWOnline::computeRawBest(
   TimeSeries bestTimeSeries = TimeSeries(0);
   TimeSeries currentTimeSeries = TimeSeries(0);
 
-  const dist_t distance = getDistance(distance_name + "_warp");
+  const dist_t distance = getDistance(distance_name + "_dtw");
   
   // iterate through every timeseries
   for (int idx = 0; idx < numberTimeSeries; idx++) {
@@ -147,7 +147,7 @@ candidate_time_series_t GDTWOnline::computeRawBest(
     if (idx1 == idx && index1 == index2) {
       continue;
     }
-    // iterate through every lenfth of interval
+    // iterate through every length of interval
     for (int intervalLength = 1; intervalLength <= timeSeriesLength;
          intervalLength++) {
       // iterate through all interval window lengths
