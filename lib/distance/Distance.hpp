@@ -53,6 +53,7 @@ template <class T> struct hasInverseNorm
 
 extern bool gTraceDTWPath;
 extern std::vector<std::vector<std::pair<int, int>>> gTrace;
+extern std::string gLastDistance;
 
 void printLastDTWPath(std::ostream& out);
 

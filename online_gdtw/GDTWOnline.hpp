@@ -119,6 +119,12 @@ public:
                             const std::string& distance);
 
   /**
+   *  Set a file where the DTW path will be print to. Nothing will print
+   *  if set this path to an empty string.
+   */
+  void setPrintDTWPathToFile(const std::string& path);
+
+  /**
    *  @brief Finds the nearest time series using gdtw
    */
   candidate_time_series_t computeRawBest(
@@ -128,6 +134,7 @@ public:
 private:
   void _checkDatasetIndex(int index);
 
+  std::string dtwPathFile = "";
   std::vector<TimeSeriesSet*> loadedDatasets;
   int datasetCount = 0;
 };

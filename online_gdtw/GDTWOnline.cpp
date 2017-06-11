@@ -4,6 +4,9 @@
 #include "TimeSeriesSet.hpp"
 #include "distance/Distance.hpp"
 
+#include <fstream>
+#include <string>
+
 GDTWOnline::~GDTWOnline()
 {
   unloadAllDataset();
@@ -117,7 +120,30 @@ data_t GDTWOnline::getDistanceBetween(int index1, int idx1, int start1, int leng
 
   const dist_t distance = getDistance(distance_name);
 
-  return distance(ts1, ts2, INF);
+  gTraceDTWPath = this->dtwPathFile.length() > 0;
+  data_t result = distance(ts1, ts2, INF);
+
+  if (this->dtwPathFile.length() > 0 && distance_name.find("_dtw") != std::string::npos) {
+    gLastDistance = distance_name;
+    std::ofstream outFile (this->dtwPathFile, std::ofstream::app);
+    printLastDTWPath(outFile);
+    outFile.close();
+    std::cout << "DTW path printed to " + this->dtwPathFile << std::endl;
+  }
+
+  return result;
+}
+
+/**
+  *  Set a file where the DTW path will be print to. Nothing will print
+  *  if set this path to an empty string.
+  */
+void GDTWOnline::setPrintDTWPathToFile(const std::string& path) {
+  if (path.length() > 0) {
+    std::ofstream outFile(path, std::ofstream::out);
+    outFile.close();
+  }
+  this->dtwPathFile = path;
 }
 
 candidate_time_series_t GDTWOnline::computeRawBest(
@@ -141,6 +167,9 @@ candidate_time_series_t GDTWOnline::computeRawBest(
 
   const dist_t distance = getDistance(distance_name + "_dtw");
   
+  // Disable DTW tracing to improve performance
+  gTraceDTWPath = false;
+
   // iterate through every timeseries
   for (int idx = 0; idx < numberTimeSeries; idx++) {
     //skip same time series

@@ -330,6 +330,31 @@ MAKE_COMMAND(Best,
   "       to skip the first column.                                  \n"
 )
 
+MAKE_COMMAND(SetDTWPathFile,
+  {
+    if (tooFewArgs(args, 2) || tooManyArgs(args, 2))
+    {
+      return false;
+    }
+    try
+    {
+      gGDTWOnline.setPrintDTWPathToFile(args[1]);
+    }
+    catch (GenexException &e)
+    {
+      std::cout << "Error! " << e.what() << std::endl;
+      return false;
+    }
+    std::cout << "File " << args[1] << " created." << std::endl;
+    return true;
+  },
+
+  "Set file where the DTW path will be appended to",
+
+  "Usage: setDTWFile <path>     \n"
+  " <path>    - path to a file  \n"
+)
+
 /**************************************************************************
  * Step 2: Add the Command object into the commands map
  *
@@ -337,9 +362,15 @@ MAKE_COMMAND(Best,
  * user input. The value is the cmd<command_name> variable created in step 1.
  **************************************************************************/
 
-                                std::map<std::string, Command *>
-                                    commands = {
-                                        {"load", &cmdLoadDataset}, {"unload", &cmdUnloadDataset}, {"list", &cmdList}, {"timer", &cmdTimer}, {"distance", &cmdDistance}, {"best", &cmdBest},
+std::map<std::string, Command *>
+    commands = {
+        {"load", &cmdLoadDataset}, 
+        {"unload", &cmdUnloadDataset}, 
+        {"list", &cmdList}, 
+        {"timer", &cmdTimer}, 
+        {"distance", &cmdDistance}, 
+        {"best", &cmdBest},
+        {"setDTWFile", &cmdSetDTWPathFile}
 };
 
 /**************************************************************************/

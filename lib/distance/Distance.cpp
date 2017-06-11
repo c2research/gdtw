@@ -1,5 +1,6 @@
 #include <map>
 #include <vector>
+#include <chrono>
 
 #include "Exception.hpp"
 
@@ -13,7 +14,7 @@
 #include "distance/Distance.hpp"
 #include "distance/Sorensen.hpp"
 
-#include <iostream>
+#include <ostream>
 
 /**
  *  Add distances to this list
@@ -45,6 +46,7 @@ static std::vector<std::string> gAllDistanceName =
 
 bool gTraceDTWPath = false;
 std::vector<std::vector<std::pair<int, int>>> gTrace;
+std::string gLastDistance;
 
 static std::map<std::string, dist_t> gAllDistanceMap;
 
@@ -81,7 +83,7 @@ void printLastDTWPath(std::ostream& out) {
 
   std::vector<std::pair<int, int>> dtwPath;
 
-  int i = gTrace.size(), j = gTrace[0].size();
+  int i = gTrace.size() - 1, j = gTrace[0].size() - 1;
   while (i != TRACE_END_MARKER)
   {
     dtwPath.push_back(std::make_pair(i, j));
@@ -89,8 +91,12 @@ void printLastDTWPath(std::ostream& out) {
     i = gTrace[old_i][old_j].first;
     j = gTrace[old_i][old_j].second;
   }
-
+  auto now = std::chrono::system_clock::now();
+  auto cnow = std::chrono::system_clock::to_time_t(now);
+  out << "Computed at " << std::ctime(&cnow);
+  out << "Used distance " << gLastDistance << std::endl;
   for (int i = dtwPath.size() - 1; i >= 0; i--) {
-    out << dtwPath[i].first << " | " << dtwPath[i].second;
+    out << dtwPath[i].first << " | " << dtwPath[i].second << std::endl;
   }
+  out << std :: endl;
 }
