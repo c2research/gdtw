@@ -4,6 +4,17 @@
 
 This project allows you to use warped versions of any distance! This is a powerful capability and opens avenues for further research. The process of adding a new distance and using it is fast and easy (described below).
 
+## datasets
+
+All the datasets can be found at http://www.cs.ucr.edu/~eamonn/time_series_data/
+for Time Series Classification experiment as described in Section 5.2.1 of paper, dataset must have 
+.mat" extension. Following link explains how to convert the text file in .mat file. 
+https://www.mathworks.com/help/matlab/ref/save.html
+Rest of the experiments use datasets as text files delimited by ' '.
+
+Use case Study on Heart Arrythmia uses the dataset from "http://physionet.org/cgi-bin/atm/ATM"
+
+
 ## install build dependencies
 
 Brew:
@@ -103,7 +114,7 @@ We define a type data_t as a floating point number with precision that you can c
 
 ### pull requests
 
-We're exited to see others implement their own distance functions and add those distances to library of distances. To do this, please document your work using doxygen style and add tests to `test/distance`.
+We're excited to see others implement their own distance functions and add those distances to library of distances. To do this, please document your work using doxygen style and add tests to `test/distance`.
 
 ### contact
 
