@@ -286,7 +286,7 @@ MAKE_COMMAND(Best,
     try
     {
       candidate_time_series_t result =
-          gGDTWOnline.computeRawBest(ds1, ts1, start1,
+          gGDTWOnline.getBestMatchRaw(ds1, ts1, start1,
                                     length1, ds2, dist);
 
       data_t dist = result.dist;

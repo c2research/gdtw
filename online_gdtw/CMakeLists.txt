@@ -1,6 +1,7 @@
 project(onlineGdtw)
 
 add_executable(online Main.cpp GDTWOnline.cpp)
+add_library(onlineLib GDTWOnline.cpp)
 
 target_link_libraries(online ${Readline_LIBRARY} distanceLib)
 

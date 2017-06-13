@@ -38,3 +38,6 @@ add_subdirectory(lib)
 include_directories("${PROJECT_SOURCE_DIR}/online_gdtw")
 add_subdirectory(online_gdtw)
 
+# add test
+enable_testing()
+add_subdirectory(test)

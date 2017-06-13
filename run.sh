@@ -2,6 +2,6 @@
 export CXX=/usr/bin/clang++
 mkdir -p build
 cd build
-cmake ..
-make
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make && make test
 cd ..

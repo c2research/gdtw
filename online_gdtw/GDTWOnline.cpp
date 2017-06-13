@@ -146,7 +146,7 @@ void GDTWOnline::setPrintDTWPathToFile(const std::string& path) {
   this->dtwPathFile = path;
 }
 
-candidate_time_series_t GDTWOnline::computeRawBest(
+candidate_time_series_t GDTWOnline::getBestMatchRaw(
     int index1, int idx1, int start1, int length1,
     int index2, const std::string &distance_name)
 {

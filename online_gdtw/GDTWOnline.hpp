@@ -127,7 +127,7 @@ public:
   /**
    *  @brief Finds the nearest time series using gdtw
    */
-  candidate_time_series_t computeRawBest(
+  candidate_time_series_t getBestMatchRaw(
       int index1, int idx1, int start1, int length1,
       int index2, const std::string &distance_name);
 
