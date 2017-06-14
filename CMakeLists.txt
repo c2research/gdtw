@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.6)
 project(gdtw)
 
 # inform compiler libs
-set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 -stdlib=libc++ -Wall -g")
-set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 -stdlib=libc++ -O2")
+set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ -O2")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 # configure header file to include CMAKE values
@@ -25,7 +24,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 # include GNU readline
 find_package(Readline REQUIRED)
-include_directories(${Readline_INCLUDE_DIRS})
+include_directories(${Readline_INCLUDE_DIR})
 
 # allow src files to see generated config.hpp
 include_directories("${PROJECT_BINARY_DIR}")
