@@ -17,7 +17,7 @@ Use case Study on Heart Arrythmia uses the dataset from "http://physionet.org/cg
 
 ## install build dependencies
 
-Brew:
+### macOS:
 
 ```bash
   brew install cmake
@@ -25,7 +25,7 @@ Brew:
   brew install readline
 ```
 
-Linux:
+### Linux:
 
 ```bash
   sudo apt-get install cmake
@@ -33,26 +33,32 @@ Linux:
   sudo apt-get install readline
 ```
 
-Windows:
+### Windows:
 
-```bash
-tbd
-# suggested: use Windows Subsystem for Linux, and then proceed as Linux.
-# else find install:
-# boost
-# cmake
-# readline
-```
+- Install [CMake for Windows](https://cmake.org/download/). Make sure that the **bin** directory of CMake is in your PATH environment variable.
+- Install [MinGW Distro with Boost](https://nuwen.net/mingw.html) at **C:\\**
+- Install [WinEditLine](https://sourceforge.net/projects/mingweditline/files/) at **C:\\**
+- Copy and replace **C:\wineditline\include\editline\readline.h** by the **readline.h** in this repository.
 
 ## building the system
 
-Build the project. The executable online will be in the build folder.
+### Linux & macOS
+The executable online will be in the build folder.
 Tests will also be run as part of the build script.
 
 ```bash
   ./run.sh
 ```
 
+### Windows
+
+Change current directory to this repository and run the following commands in **cmd**
+```
+mkdir build
+cd build
+cmake ..
+make
+```
 ## matlab extension
 
 If you prefer to interface with the project in matlab rather than in c++, we support this as well! In order to compile the executable file used by matlab you must get a license for matlab, and then find your instances root location. You can do this via the matlab IDE by running the command `matlabroot`. From here adjust the field Matlab_ROOT_DIR in the upper-level CMakeLists.txt. Assuming that you have Boost installed as well, you will generate a .mex* file (exact extension depends on your architecture) when you `./run.sh`. This file will appear in your build folder. Add it to your path (most easily done via the matlab IDE) and then you will be able to use the dtw with any distance function. An example of how to do this is in the directory `experiments`. You can also see `MatlabMex.cpp` documentation for details on function usage.
