@@ -15,8 +15,12 @@ configure_file (
 
 # find matlab
 set(Matlab_ROOT_DIR "/Applications/MATLAB_R2017a.app")
-find_package( Matlab REQUIRED COMPONENTS MX_LIBRARY )
-include_directories("${Matlab_INCLUDE_DIRS}")
+find_package( Matlab COMPONENTS MX_LIBRARY )
+
+if (Matlab_FOUND)
+  message(STATUS "Found Matlab library")
+  include_directories("${Matlab_INCLUDE_DIRS}")
+endif()
 
 # include boost
 find_package(Boost 1.6 REQUIRED COMPONENTS unit_test_framework)
@@ -37,6 +41,7 @@ message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 message(STATUS "Boost_UNIT_TEST_FRAMEWORK_LIBRARY: ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}")
 message(STATUS "Readline_INCLUDE_DIR: ${Readline_INCLUDE_DIR}")
 message(STATUS "Readline_LIBRARY: ${Readline_LIBRARY}")
+message(STATUS "Matlab_ROOT_DIR: ${Matlab_ROOT_DIR}")
 
 # allow src files to see generated config.hpp
 include_directories("${PROJECT_BINARY_DIR}")
