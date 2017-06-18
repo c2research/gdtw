@@ -85,7 +85,7 @@ void mexFunction(int nlhs, mxArray *plhs[],
     outMatrix = mxGetPr(plhs[0]);
 
     /* get distance */
-    const dist_t distance = getDistance(in_name + "_warp");
+    const dist_t distance = getDistance(in_name + "_dtw");
 
     /* perform gdtw */
     outMatrix[0] = distance(x_1, x_2, INF);
