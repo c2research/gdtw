@@ -5,8 +5,17 @@
 #include <map>
 #include <vector>
 #include <boost/tokenizer.hpp>
+
+#if defined(__linux__) || defined(__APPLE__)
+
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#elif defined(_WIN32) || defined(_WIN64)
+
+#include <editline/readline.h>
+
+#endif
 
 #include "Command.hpp"
 #include "Exception.hpp"

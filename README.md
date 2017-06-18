@@ -4,9 +4,20 @@
 
 This project allows you to use warped versions of any distance! This is a powerful capability and opens avenues for further research. The process of adding a new distance and using it is fast and easy (described below).
 
+## datasets
+
+All the datasets can be found at http://www.cs.ucr.edu/~eamonn/time_series_data/
+for Time Series Classification experiment as described in Section 5.2.1 of paper, dataset must have 
+.mat" extension. Following link explains how to convert the text file in .mat file. 
+https://www.mathworks.com/help/matlab/ref/save.html
+Rest of the experiments use datasets as text files delimited by ' '.
+
+Use case Study on Heart Arrythmia uses the dataset from "http://physionet.org/cgi-bin/atm/ATM"
+
+
 ## install build dependencies
 
-Brew:
+### macOS:
 
 ```bash
   brew install cmake
@@ -14,7 +25,7 @@ Brew:
   brew install readline
 ```
 
-Linux:
+### Linux:
 
 ```bash
   sudo apt-get install cmake
@@ -22,26 +33,32 @@ Linux:
   sudo apt-get install readline
 ```
 
-Windows:
+### Windows:
 
-```bash
-tbd
-# suggested: use Windows Subsystem for Linux, and then proceed as Linux.
-# else find install:
-# boost
-# cmake
-# readline
-```
+- Install [CMake for Windows](https://cmake.org/download/). Make sure that the **bin** directory of CMake is in your PATH environment variable.
+- Install [MinGW Distro with Boost](https://nuwen.net/mingw.html) at **C:\\**
+- Install [WinEditLine](https://sourceforge.net/projects/mingweditline/files/) at **C:\\**
+- Copy and replace **C:\wineditline\include\editline\readline.h** by the **readline.h** in this repository.
 
 ## building the system
 
-Build the project. The executable online will be in the build folder.
+### Linux & macOS
+The executable online will be in the build folder.
 Tests will also be run as part of the build script.
 
 ```bash
   ./run.sh
 ```
 
+### Windows
+
+Change current directory to this repository and run the following commands in **cmd**
+```
+mkdir build
+cd build
+cmake ..
+make
+```
 ## matlab extension
 
 If you prefer to interface with the project in matlab rather than in c++, we support this as well! In order to compile the executable file used by matlab you must get a license for matlab, and then find your instances root location. You can do this via the matlab IDE by running the command `matlabroot`. From here adjust the field Matlab_ROOT_DIR in the upper-level CMakeLists.txt. Assuming that you have Boost installed as well, you will generate a .mex* file (exact extension depends on your architecture) when you `./run.sh`. This file will appear in your build folder. Add it to your path (most easily done via the matlab IDE) and then you will be able to use the dtw with any distance function. An example of how to do this is in the directory `experiments`. You can also see `MatlabMex.cpp` documentation for details on function usage.
@@ -103,7 +120,7 @@ We define a type data_t as a floating point number with precision that you can c
 
 ### pull requests
 
-We're exited to see others implement their own distance functions and add those distances to library of distances. To do this, please document your work using doxygen style and add tests to `test/distance`.
+We're excited to see others implement their own distance functions and add those distances to library of distances. To do this, please document your work using doxygen style and add tests to `test/distance`.
 
 ### contact
 

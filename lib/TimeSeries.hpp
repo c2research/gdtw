@@ -3,6 +3,7 @@
 
 #include "config.hpp"
 #include <string>
+#include <cstring>
 #include <limits>
 #include <iostream>
 
