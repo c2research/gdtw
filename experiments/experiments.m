@@ -1,17 +1,19 @@
 for i=1:length(distances)
-    dist = distances{i};
-    
-    disp('starting distance: ')
-    disp(dist)
-    
+    distance = distances{i};
+    disp("Starting distance: ");
+    disp(distance);
     for j=1:length(datasets)
-        set = datasets{j};
-        NearestNeighbor(dist, set);
+        dataset = datasets{j};
+        disp("Starting dataset: ");
+        disp(dataset);
+        tic
+        test_error_rate = NearestNeighbor(distance, dataset);
+        elapsed = toc;
         
-        disp('finished dataset: ')
-        disp(set)
+        fileID = fopen('nn_results_test.txt', 'a');
+        fprintf(fileID, [distance, ', ', dataset, ', ', sprintf('%.2f', test_error_rate), ', ', sprintf('%.1f', elapsed), '\r\n']);
+        fprintf( "%s, %s, %.2f, %f, \n", distance, dataset, test_error_rate, elapsed);
+        fclose(fileID);
+        pause(1);
     end
-    
-    disp('finished distance: ')
-    disp(dist)
 end

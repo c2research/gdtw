@@ -1,7 +1,7 @@
-function [ ] = NearestNeighbor( distance, dataset )
+function [ test_error_rate ] = NearestNeighbor( distance, dataset )
 %NearestNeighbor classifies `dataset` using the `distance`
 %   utilizes gdtw to perform dtw.
-data_path = '../UCR/';
+data_path = '../../UCR/';
 
 train_data = load(strcat(data_path, dataset, '/', dataset, '_TRAIN'));
 train_label = train_data(:,1);
@@ -20,9 +20,5 @@ mdl.NumNeighbors = k;
 
 predicted_label = predict(mdl,test_data);
 test_error_rate = sum(test_label ~= predicted_label)/length(test_label);
-
-fileID = fopen('nn_results.txt', 'a');
-fprintf(fileID, [distance, ', ', dataset, ', ', sprintf('%.2f', test_error_rate), '\r\n']);
-disp(test_error_rate)
 end
 
