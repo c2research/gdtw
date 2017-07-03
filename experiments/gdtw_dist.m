@@ -4,7 +4,7 @@ function [ D2 ] = gdtw_dist( ZI, ZJ, dist )
 %   that can operate on 2-dimensional arrays
     [m2, ~] = size(ZJ);
     results = zeros(m2,1);
-    for i=1:m2
+    parfor i=1:m2
        results(i) = gdtw(ZI, ZJ(i,:), dist); 
     end
     D2 = results;
