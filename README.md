@@ -56,7 +56,7 @@ Change current directory to this repository and run the following commands in **
 ```
 mkdir build
 cd build
-cmake ..
+cmake .. -G "MinGW Makefiles"
 make
 ```
 ## matlab extension
