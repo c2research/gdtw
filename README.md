@@ -36,9 +36,9 @@ Use case Study on Heart Arrythmia uses the dataset from "http://physionet.org/cg
 ### Windows:
 
 - Install [CMake for Windows](https://cmake.org/download/). Make sure that the **bin** directory of CMake is in your PATH environment variable.
-- Install [MinGW Distro with Boost](https://nuwen.net/mingw.html) at **C:\\**
-- Install [WinEditLine](https://sourceforge.net/projects/mingweditline/files/) at **C:\\**
-- Copy and replace **C:\wineditline\include\editline\readline.h** by the **readline.h** in this repository.
+- Install [MinGW Distro with Boost](https://nuwen.net/mingw.html) in **C:\\**
+- Install [WinEditLine](https://sourceforge.net/projects/mingweditline/files/) in **C:\\**
+- Copy and replace **C:\wineditline\include\editline\readline.h** with **readline.h** in this repository.
 
 ## building the system
 
