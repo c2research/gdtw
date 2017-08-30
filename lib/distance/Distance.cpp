@@ -98,5 +98,6 @@ void printLastDTWPath(std::ostream& out) {
   for (int i = dtwPath.size() - 1; i >= 0; i--) {
     out << dtwPath[i].first << " | " << dtwPath[i].second << std::endl;
   }
-  out << std :: endl;
+  out << "Warped count " << dtwPath.size() << std::endl;
+  out << std::endl;
 }
