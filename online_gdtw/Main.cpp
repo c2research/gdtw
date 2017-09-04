@@ -279,7 +279,7 @@ MAKE_COMMAND(Best,
       return false;
     }
 
-    std::string dist = "euclidean";
+    std::string dist = "euclidean_dtw";
 
     if (args.size() == 7)
     {

@@ -154,7 +154,7 @@ candidate_time_series_t GDTWOnline::getBestMatchRaw(
   this->_checkDatasetIndex(index2);
 
   TimeSeries target = this->loadedDatasets[index1]
-                            ->getTimeSeries(idx1, start1, start1 + length1);
+                          ->getTimeSeries(idx1, start1, start1 + length1);
 
   int numberTimeSeries = this->loadedDatasets[index2]->getItemCount();
   int timeSeriesLength = this->loadedDatasets[index2]->getItemLength();
@@ -165,7 +165,7 @@ candidate_time_series_t GDTWOnline::getBestMatchRaw(
   TimeSeries bestTimeSeries = TimeSeries(0);
   TimeSeries currentTimeSeries = TimeSeries(0);
 
-  const dist_t distance = getDistance(distance_name + "_dtw");
+  const dist_t distance = getDistance(distance_name);
   
   // Disable DTW tracing to improve performance
   gTraceDTWPath = false;
