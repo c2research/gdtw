@@ -298,7 +298,7 @@ MAKE_COMMAND(Best,
           gGDTWOnline.getBestMatchRaw(ds1, ts1, start1,
                                     length1, ds2, dist);
 
-      data_t dist = result.dist;
+      data_t res_dist = result.dist;
       TimeSeries data = result.data;
 
       int ts2 = data.getIndex();
@@ -312,7 +312,7 @@ MAKE_COMMAND(Best,
                 << "[ds: " << ds2 << " id: " << ts2
                 << " start: " << start2 << " length: " << length2 << "]" << std::endl;
 
-      std::cout << "Result: " << std::setprecision(4) << std::fixed << dist << std::endl;
+      std::cout << "Result: " << std::setprecision(4) << std::fixed << res_dist << std::endl;
     }
     catch (GenexException &e)
     {
