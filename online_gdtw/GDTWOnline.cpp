@@ -185,7 +185,7 @@ candidate_time_series_t GDTWOnline::getBestMatchRaw(
         currentTimeSeries = 
             this->loadedDatasets[index2]
                   ->getTimeSeries(idx, start, start + intervalLength);
-        currentDist = distance(target, currentTimeSeries, bestDist);
+        currentDist = distance(target, currentTimeSeries, INF);
         if (currentDist < bestDist) {
           bestDist = currentDist;
           bestTimeSeries = currentTimeSeries;
