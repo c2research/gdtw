@@ -27,7 +27,7 @@ public:
 
   data_t norm(data_t total, const TimeSeries& t, const TimeSeries& t_2) const
   {
-    return (total / t.getLength());
+    return total;
   }
 
   void clean(data_t x) {}

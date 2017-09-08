@@ -27,12 +27,12 @@ public:
 
   data_t norm(data_t total, const TimeSeries& t_1, const TimeSeries& t_2) const
   {
-    return sqrt((total) / (std::max(t_1.getLength(), t_2.getLength()) - 1));
+    return sqrt(total);
   }
 
   data_t inverseNorm(data_t dropout, const TimeSeries& x_1, const TimeSeries& x_2) const
   {
-    return dropout * dropout * (x_1.getLength() - 1);
+    return dropout * dropout;
   }
 
   void clean(data_t x) {}
