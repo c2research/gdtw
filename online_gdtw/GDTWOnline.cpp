@@ -180,7 +180,7 @@ candidate_time_series_t GDTWOnline::getBestMatchRaw(
     for (int intervalLength = 1; intervalLength <= timeSeriesLength;
          intervalLength++) {
       // iterate through all interval window lengths
-      for (int start = 0; start < timeSeriesLength - intervalLength; 
+      for (int start = 0; start <= timeSeriesLength - intervalLength; 
             start++) {
         currentTimeSeries = 
             this->loadedDatasets[index2]
